@@ -12,7 +12,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     version=__version__,
     license="Apache-2.0",
-    url="https://github.com/TeoDV/easy_allure",
+    url="https://github.com/miner34006/easy_allure",
     author='Polianok Bogdan',
     author_email='bogdan.polianok@gmail.com',
     python_requires=">=3.7",
