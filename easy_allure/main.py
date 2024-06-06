@@ -5,13 +5,12 @@ import sys
 
 import pkg_resources
 
-from .allurectl import (ALLURECTL_VERSION, get_allure_executable,
-                        get_platforms, install_allurectl)
+from .allurectl import ALLURECTL_VERSION, get_allure_executable, get_platforms, install_allurectl
 from .logger import get_logger, set_level
 from .testops import AllureTestops, get_available_actions
 
 allurectl_version = ALLURECTL_VERSION.replace('.', '')
-__version__ = '1.2.0.{}'.format(allurectl_version)
+__version__ = '1.3.0.{}'.format(allurectl_version)
 
 LOGGER = get_logger()
 
@@ -57,6 +56,9 @@ def main():
     parser.add_argument('reports_path')
     parser.add_argument('-l', '--launch-name', dest='launch_name',
                         default='default_launch_name')
+    parser.add_argument('-a', '--add-link', dest='add_link',
+                        action='store_true',
+                        help='Add launch link to Gitlab description')
 
     parsed_args = parser.parse_args()
     if parsed_args.verbose:
