@@ -8,6 +8,7 @@ from .logger import get_logger
 
 LOGGER = get_logger()
 
+MR_LAUNCH_PREFIX = '🚀 Last Testops launch'
 
 def run_cmd(cmd: str, timeout: int = 300) -> Tuple[str, str]:
     LOGGER.debug('CMD: {}'.format(cmd))

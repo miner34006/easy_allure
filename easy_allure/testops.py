@@ -80,7 +80,7 @@ def add_launch_link(link: str) -> None:
             mr_iid=mr_iid,
             link=link
         )
-        LOGGER.info('Link to launch was successfully added')
+        LOGGER.info(f'Link to launch was successfully added to MR (iid={mr_iid}) description')
     except GitlabException as err:
         LOGGER.error(f'Failed to link launch to Gitlab, reason - {err}')
 
