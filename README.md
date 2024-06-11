@@ -14,6 +14,14 @@ export ALLURE_TOKEN=TOKEN_HERE
 export ALLURE_PROJECT_ID=ID_HERE
 ```
 
+For updating MR description with last Testops launch link (only Gitlab is supported), provide ENVs:
+``` shell
+export CI_API_V4_URL=ENDPOINT_HERE
+export GITLAB_PRIVATE_TOKEN=TOKEN_HERE
+export CI_MERGE_REQUEST_IID=MERGE_REQUEST_IID_HERE
+export CI_PROJECT_ID=ID_HERE
+```
+
 ## Usage
 
 Send test results to testops

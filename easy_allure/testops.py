@@ -2,6 +2,7 @@ import argparse
 import os
 from typing import Dict
 
+from .gitlab import Gitlab, GitlabException
 from .allurectl import install_allurectl
 from .exceptions import ScriptException
 from .helpers import run_cmd
@@ -56,9 +57,32 @@ def send_to_testops(testops_obj, parsed_args: argparse.Namespace) -> int:
     testops_obj.upload_launch(parsed_args.reports_path, launch_id)
 
     allure_endpoint = os.environ.get('ALLURE_ENDPOINT')
-    LOGGER.info('Test run was successfully pushed to {}/launch/{}'
-                .format(allure_endpoint, launch_id))
+    link = f'{allure_endpoint}/launch/{launch_id}'
+    LOGGER.info(f'Test run was successfully pushed to {link}')
+
+    if parsed_args.add_link:
+        add_launch_link(link)
+
     return 0
+
+
+def add_launch_link(link: str) -> None:
+    mr_iid = os.environ.get('CI_MERGE_REQUEST_IID')
+    if not mr_iid:
+        LOGGER.info('CI_MERGE_REQUEST_IID was not found')
+        return
+
+    gitlab = Gitlab(os.environ.get('CI_API_V4_URL'),
+                    os.environ.get('GITLAB_PRIVATE_TOKEN'))
+    try:
+        gitlab.add_link_to_description(
+            ci_project_id=os.environ.get('CI_PROJECT_ID'),
+            mr_iid=mr_iid,
+            link=link
+        )
+        LOGGER.info(f'Link to launch was successfully added to MR (iid={mr_iid}) description')
+    except GitlabException as err:
+        LOGGER.error(f'Failed to link launch to Gitlab, reason - {err}')
 
 
 def get_available_actions() -> Dict:
